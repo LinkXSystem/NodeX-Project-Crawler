@@ -1,0 +1,37 @@
+{{#section 'head'}}
+    <script src="/js/rx.min.js"></script>
+{{/section}}
+
+<div class="ui container">
+    <div class="ui icon input">
+        <input class="search" type="text" placeholder="Search In GitHub ......">
+        <i class="inverted circular search link icon"></i>
+    </div>
+</div>
+
+{{#section 'core'}}
+    <script type="text/javascript">
+        $(() => {
+            const $container = $('#container');
+            const $input = $('.search');
+
+            const observable = Rx.Observable.fromEvent($input, 'keyup')
+                    .debounceTime(400)
+                    .map(() => $input.val().trim())
+                    .filter((text) => !!text)
+                    // 只取不一样的值进行异步
+                    .distinctUntilChanged()
+                    .do(value => {
+                        console.log(value);
+                    })
+                    .switchMap(value => {
+                        return [];
+                    });
+
+
+            observable.subscribe((data) => {}, (err) => {
+                throw err;
+            });
+        });
+    </script>
+{{/section}}

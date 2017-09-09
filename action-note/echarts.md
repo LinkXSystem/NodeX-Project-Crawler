@@ -1,0 +1,1 @@
+> <script src="https://cdn.bootcss.com/echarts/3.6.2/echarts.common.js"></script>
