@@ -4,7 +4,6 @@ var helper = {};
 
 module.exports = helper;
 
-
 helper.get = function (option, callback) {
     http.request(option, function (res) {
         var datastore = '';
@@ -40,4 +39,10 @@ helper.proxy = function (option, callback) {
            callback(datastore);
         });
     });
+
+    action.end();
+
+    action.on('error', function (error) {
+        if (error) throw error;
+    })
 };

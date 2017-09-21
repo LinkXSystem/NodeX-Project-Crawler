@@ -3,11 +3,13 @@
 {{/section}}
 
 <div class="ui container">
-    <div class="ui icon input">
+    <div class="ui icon input search">
         <input class="search" type="text" placeholder="Search In GitHub ......">
         <i class="inverted circular search link icon"></i>
     </div>
 </div>
+
+<div id="main" class="main" style="width: 600px; height: 400px;"></div>
 
 {{#section 'core'}}
     <script type="text/javascript">
@@ -29,9 +31,78 @@
                     });
 
 
-            observable.subscribe((data) => {}, (err) => {
+            observable.subscribe((data) => {
+            }, (err) => {
                 throw err;
             });
         });
+    </script>
+    <script>
+//        var myChart = echarts.init(document.getElementById('main'));
+
+//        $.get('http://echarts.baidu.com/gallery/data/asset/data/les-miserables.gexf', {dataType: 'JSONP'}, function (xml) {
+//            myChart.hideLoading();
+//
+//            var graph = echarts.dataTool.gexf.parse(xml);
+//            var categories = [];
+//            for (var i = 0; i < 9; i++) {
+//                categories[i] = {
+//                    name: '类目' + i
+//                };
+//            }
+//            graph.nodes.forEach(function (node) {
+//                node.itemStyle = null;
+//                node.value = node.symbolSize;
+//                node.symbolSize /= 1.5;
+//                node.label = {
+//                    normal: {
+//                        show: node.symbolSize > 30
+//                    }
+//                };
+//                node.category = node.attributes.modularity_class;
+//            });
+//            option = {
+//                title: {
+//                    text: 'Les Miserables',
+//                    subtext: 'Default layout',
+//                    top: 'bottom',
+//                    left: 'right'
+//                },
+//                tooltip: {},
+//                legend: [{
+//                    // selectedMode: 'single',
+//                    data: categories.map(function (a) {
+//                        return a.name;
+//                    })
+//                }],
+//                animationDuration: 1500,
+//                animationEasingUpdate: 'quinticInOut',
+//                series: [
+//                    {
+//                        name: 'Les Miserables',
+//                        type: 'graph',
+//                        layout: 'none',
+//                        data: graph.nodes,
+//                        links: graph.links,
+//                        categories: categories,
+//                        roam: true,
+//                        label: {
+//                            normal: {
+//                                position: 'right',
+//                                formatter: '{b}'
+//                            }
+//                        },
+//                        lineStyle: {
+//                            normal: {
+//                                color: 'source',
+//                                curveness: 0.3
+//                            }
+//                        }
+//                    }
+//                ]
+//            };
+//
+//            myChart.setOption(option);
+//        }, 'xml');
     </script>
 {{/section}}

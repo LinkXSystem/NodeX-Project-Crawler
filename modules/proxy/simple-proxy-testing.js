@@ -1,38 +1,57 @@
 var request = require('request');
-var co = require('co');
+var async = require('async');
 
-var option = {
-    url: 'https://www.zhihu.com',
-    method: 'GET',
-    timeout: 2000,
-    encoding: 'UTF-8',
-    proxy: 'http://218.56.132.156:8080'
+function proxy() {
+    var api = 'http://www.66ip.cn/mo.php?sxb=&tqsl=20&port=&export=&ktip=&sxa=&submit=%CC%E1++%C8%A1&textarea=';
+
+    return new Promise((resolve, reject) => {
+        var option = {
+            method: 'GET',
+            url: api
+        };
+
+        request(option, function (error, res, body) {
+            try {
+                if (error) throw error;
+
+                var list = body.match(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,4}/g);
+
+                resolve(list);
+            } catch (ex) {
+                reject(e)
+            }
+        });
+    });
 }
 
 
-co(function* () {
-    for (var i = 0; i < 10; i ++) {
-        try {
-            var result = yield new Promise((resolve, reject) => {
-                request(option, function (error, response, body) {
-                    try {
-                        if (error) throw error;
+proxy().then(function (list) {
+    // console.log(list);
+    var options = [];
 
-                        resolve(body);
-                    } catch (error) {
-                        reject(error);
-                    }
-                });
-            });
+    list.forEach(function (url) {
+        options.push({
+            method: 'GET',
+            url: 'https://www.zhihu.com',
+            timeout: 8000,
+            proxy: `http://${url}`
+        });
+    });
 
-            console.log(`Message: ${result}`);
-        } catch (error) {
-            console.log(`Application's Message: ${error}`);
-        }
-    }
-}).catch(function (error) {
-    console.log(`Thread's Message: ${error}`);
+    async.mapLimit(options, options.length, function (option, callback) {
+        request(option, function (error, res, body) {
+            // if (error) callback(error, "Error!");
+            if (error) return console.log(`The Simple Error Message: ${error.message}`);
+
+            // console.log(body);
+            if (body) console.log(`The Available Proxy: ${option.proxy}`);
+
+            callback(null, 'Success!');
+        });
+    }, function (error) {
+        if (error) console.log(`The Interrupted Error Message: ${error.message}`);
+    });
+
+}).catch(error => {
+    if (error) console.log(error);
 });
-
-
-
