@@ -41,7 +41,7 @@ proxy().then(function (list) {
     async.mapLimit(options, options.length, function (option, callback) {
         request(option, function (error, res, body) {
             // if (error) callback(error, "Error!");
-            if (error) return console.log(`The Simple Error Message: ${error.message}`);
+            if (error) return callback(error, 'Error!');
 
             // console.log(body);
             if (body) console.log(`The Available Proxy: ${option.proxy}`);
