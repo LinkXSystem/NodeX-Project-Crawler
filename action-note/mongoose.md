@@ -1,3 +1,42 @@
+> 流程控制的原型
+```js
+const mongoose = require('./connect-component');
+
+const schema = mongoose.Schema;
+
+const blog = new schema({
+    title: String
+});
+
+blog.methods.findByTitles = function (title, callback) {
+    this.model('blogs').find({title: title}, function (error, results) {
+        if (error) throw error;
+
+        callback(results);
+    });
+};
+
+const Blog = mongoose.model('blogs', blog);
+
+let entity = new Blog({title: 'linksystem'});
+
+entity.save(function (error, result) {
+    if (error) return console.log(error.message);
+
+    console.log(JSON.stringify(result));
+
+    entity.findByTitles(/^link/, function (results) {
+        console.log(results);
+    });
+
+    Blog.remove(function () {
+        mongoose.disconnect();
+    })
+});
+```
+
+> 基于 Co 流程控制
+```js
 const mongoose = require('./connect-component');
 const co = require('co');
 const assert = require('assert');
@@ -64,3 +103,4 @@ co(function* () {
 }).then((error) => {
     if (error) throw error;
 });
+```
