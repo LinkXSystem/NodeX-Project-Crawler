@@ -6,7 +6,7 @@ const schema = mongoose.Schema;
 
 const blog = new schema({
     title: String
-});
+}, {autoIndex: false});
 
 blog.methods.findByTitles = function (title, callback) {
     this.model('blogs').find({title: title}, function (error, results) {
